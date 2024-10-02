@@ -1,10 +1,10 @@
-# Создадим словарь DNA
+#  DNA
 DNA = {'a': 't', 'A': 'T',
        'g': 'c', 'G': 'C',
        'c': 'g', 'C': 'G',
        't': 'a', 'T': 'A'
        }
-# Создадим словарь RNA
+#  RNA
 RNA = {'a': 'u', 'A': 'U',
        'g': 'c', 'G': 'C',
        'c': 'g', 'C': 'G',
@@ -12,33 +12,32 @@ RNA = {'a': 'u', 'A': 'U',
        }
 
 
-def is_dna(seq):    # проверка DNA это или нет
+def is_dna(seq):    # is DNA 
     return set(seq).issubset(DNA.keys())
 
 
-def is_rna(seq):    # проверка RNA это или нет
+def is_rna(seq):    # is RNA 
     return set(seq).issubset(RNA.keys())
 
 
-def run_dna_rna_tools(*seqs):   # функция main
+def run_dna_rna_tools(*args):   #  main
     results = []
-    action = seqs[-1]
-    seqs = seqs[0:-1]
+    *seqs, action = args
     for seq in seqs:
         if action == "transcribe":
-            val = test_transcribe(seq)
+            val = transcribe(seq)
             if val is not None:
                 results.append(val)
         elif action == "reverse":
-            val = test_reverse(seq)
+            val = reverse(seq)
             if val is not None:
                 results.append(val)
         elif action == "complement":
-            val = test_complement(seq)
+            val = complement(seq)
             if val is not None:
                 results.append(val)
         elif action == "reverse_complement":
-            val = test_reverse_complement(seq)
+            val = reverse_complement(seq)
             if val is not None:
                 results.append(val)
     if len(results) == 1:
@@ -47,14 +46,14 @@ def run_dna_rna_tools(*seqs):   # функция main
         return results
 
 
-def test_reverse(seq):
+def reverse(seq):
     if is_dna(seq) or is_rna(seq):
         result = seq[::-1]
         return result
 
 
-def test_complement(seq):
-    result = ' '
+def complement(seq):
+    result = ''
     if is_rna(seq):
         for n in seq:
             result += RNA[n]
@@ -65,13 +64,11 @@ def test_complement(seq):
         return result
 
 
-def test_reverse_complement(seq):
-    result = test_complement(seq)
-    result = test_reverse(result)
-    return result
+def reverse_complement(seq):
+    return reverse(complement(seq))
 
 
-def test_transcribe(seq):
+def transcribe(seq):
     if is_dna(seq):
         result = seq.replace('T', 'U').replace('t', 'u')
         return result
