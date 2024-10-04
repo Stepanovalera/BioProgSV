@@ -1,9 +1,8 @@
-
+from sv_check import is_dna, is_rna
 
 def reverse(seq):
     if is_dna(seq) or is_rna(seq):
-        result = seq[::-1]
-        return result
+        return seq[::-1]
 
 
 def complement(seq):
