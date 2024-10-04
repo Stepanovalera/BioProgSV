@@ -5,7 +5,7 @@
 **BioProg_SV** (Biological Programm by Stepnova Valeriya) is a toolkit designed to calculate basic DNA/RNA analysis and validate DNA quality from FastQC data.
 
 Authors:
-**Stepanova Valeria Bioinformatics institute 2024/2025**
+**Stepanova Valeria - Bioinformatics institute 2024/2025**
 
 
 **BioProg_SV** documentation is available on the GitHub [repo](https://github.com/Stepanovalera/BioProgSV).<br/>
@@ -33,8 +33,14 @@ This program contains main functions:
 
 
   `fast_qc` - The function calculates:
+
+
     - GC Content: Percentage of guanine (G) and cytosine (C) in the DNA sequence.
+
+
     - Sequence Length: The number of bases in the DNA sequence.
+
+
     - Average Quality Score: An average quality derived from Phred quality scores
     
 
@@ -58,7 +64,7 @@ This program contains main functions:
   `complement()` - Produces the complement of a DNA strand by replacing each nucleotide with its complementary base.
   
 
-Each sequence is processed, and results are collected into a list. If there is only one sequence to process, the function directly returns the single result; otherwise, it returns a `list()`. This design allows the function to handle both individual sequences and batches efficiently, making it suitable for batch processing tasks or single-sequence manipulation.
+Each sequence is processed, and results are collected into a list. If there is only one sequence to process, the function directly returns the single result; otherwise, it returns a `list()`. 
 
 ## Examples
 

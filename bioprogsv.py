@@ -49,8 +49,8 @@ def filter_fastq(seqs, gc_bounds=(0, 100),
         dictionary where each key is a sequence name and each value
       is a tuple containing the DNA sequence (str)
         and its quality string (str).
-    - gc_bounds(tuple):
-    - length_bounds(tuple):
+    - gc_bounds(tuple or int):
+    - length_bounds(tuple ot int):
     - quality_threshold(float):
 
     Returns:
