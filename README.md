@@ -91,11 +91,3 @@ EXAMPLE_FASTQ = {
 ## Contact
 
 Also, you can send your feedback to [ukrainskaya49@gmail.com](mailto:ukrainskaya49@gmail.com).
-
-
-
-
-
-
-
-
