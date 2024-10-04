@@ -1,6 +1,5 @@
 
-from addscript.sv_rdrt_functions import transcribe, reverse, complement, reverse_complement
-from addscript.sv_check import is_none
+from addscript.sv_rdrt_functions import transcribe, reverse, complement, reverse_complement, is_none
 from addscript.fastq_qc_function import fast_qc
 
 
@@ -41,18 +40,19 @@ def filter_fastq(seqs, gc_bounds=(0, 100), length_bounds=(0, 2**32), quality_thr
     Parameters:
     - seqs dict[str, tuple[str, str]: A dictionary where each key is a sequence name and each value
       is a tuple containing the DNA sequence (str) and its quality string (str).
-    - gc_bounds(tuple or float):
+    - gc_bounds(tuple):
     - length_bounds(tuple):
-    - quality_threshold(int): 
+    - quality_threshold(float): 
 
     Returns:
-    - filtered_fastq(dict): A dictionary of selected seqs 
+    - filtered_fastq(dict[str: tuple(str, str)]): A dictionary of filtered sequences in the format:
+      {sequence_name: (sequence, quality_string)}.
     """
     filtered_fastq = {}
     filtered_data = fast_qc(seqs)
     for sequence_name, (gc, length, quality) in filtered_data.items():
         if (gc_bounds[0] <= gc <= gc_bounds[1]) and \
            (length_bounds[0] <= length <= length_bounds[1]) and \
-           (quality > quality_threshold):
+           (quality >= float(quality_threshold)):
             filtered_fastq[sequence_name] = seqs[sequence_name]
     return filtered_fastq
