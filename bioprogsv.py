@@ -2,7 +2,6 @@
 from addscript.sv_rdrt_functions import transcribe, reverse, complement, reverse_complement, is_none
 from addscript.fastq_qc_function import fast_qc
 
-
 def run_dna_rna_tools(*args):
     """
     Parameters:
@@ -36,9 +35,9 @@ def run_dna_rna_tools(*args):
         return results
 
 
-def filter_fastq(seqs, gc_bounds=(0, 100),
-                 length_bounds=(0, 2**32),
-                 quality_threshold=0):
+def filter_fastq(seqs, gc_bounds = (0, 100),
+                 length_bounds = (0, 2**32),
+                 quality_threshold = 0):
     """
     Parameters:
     - seqs dict[str, tuple[str, str]: A
@@ -54,6 +53,10 @@ def filter_fastq(seqs, gc_bounds=(0, 100),
         A dictionary of filtered sequences in the format:
       {sequence_name: (sequence, quality_string)}.
     """
+    if isinstance(gc_bounds, (int)):
+        gc_bounds = (0, gc_bounds)
+    if isinstance(length_bounds, (int)):
+        length_bounds = (0, length_bounds)
     filtered_fastq = {}
     filtered_data = fast_qc(seqs)
     for sequence_name, (gc, length, quality) in filtered_data.items():

@@ -1,7 +1,6 @@
 
 # BIOPROG_SV
 
-<img align="right" src="logo.jpg" alt="MetaFast" width="400"> #Добавить свою картинку
 
 **BioProg_SV** (Biological Programm by Stepnova Valeriya) is a versatile toolkit designed to calculate basic DNA/RNA parameters and validate DNA quality from FastQC data.
 
@@ -16,7 +15,7 @@ Authors:
 
 * [Installation](#installation)
 * [Instructions](#instructions)
-* [Examples](#examples)
+* [Example input](#examples)
 * [Contact](#contact)
 
 
@@ -59,7 +58,7 @@ This program contains main functions:
   `complement()` - Produces the complement of a DNA strand by replacing each nucleotide with its complementary base.
   
   
-  `is_none()` -Checks if the given sequence is empty or None. This utility function ensures that subsequent operations are performed only on valid sequences, preventing errors in data processing.
+  `is_none()` - Checks if the given sequence is empty or None. This utility function ensures that subsequent operations are performed only on valid sequences, preventing errors in data processing.
   
   
   `is_DNA()` - Validates whether the provided sequence is a DNA sequence, checking for the presence of valid DNA nucleotides (A, T, C, G).
