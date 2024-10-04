@@ -3,13 +3,14 @@ from addscript.sv_rdrt_functions import transcribe, reverse, complement, reverse
 from addscript.fastq_qc_function import fast_qc
 
 
-def run_dna_rna_tools(*args):  
+def run_dna_rna_tools(*args):
     """
     Parameters:
     *args (list): list of seqs(list) and action(str)
 
     Returns:
-    result (list or str): A list of DNA/RNA sequences or single DNA/RNA sequence
+    result (list or str): A list of DNA/RNA
+        sequences or single DNA/RNA sequence
 
     Module:
     is_none - checking is value None or not
@@ -35,17 +36,22 @@ def run_dna_rna_tools(*args):
         return results
 
 
-def filter_fastq(seqs, gc_bounds=(0, 100), length_bounds=(0, 2**32), quality_threshold=0):
+def filter_fastq(seqs, gc_bounds=(0, 100),
+                 length_bounds=(0, 2**32),
+                 quality_threshold=0):
     """
     Parameters:
-    - seqs dict[str, tuple[str, str]: A dictionary where each key is a sequence name and each value
-      is a tuple containing the DNA sequence (str) and its quality string (str).
+    - seqs dict[str, tuple[str, str]: A
+        dictionary where each key is a sequence name and each value
+      is a tuple containing the DNA sequence (str)
+        and its quality string (str).
     - gc_bounds(tuple):
     - length_bounds(tuple):
-    - quality_threshold(float): 
+    - quality_threshold(float):
 
     Returns:
-    - filtered_fastq(dict[str: tuple(str, str)]): A dictionary of filtered sequences in the format:
+    - filtered_fastq(dict[str: tuple(str, str)]):
+        A dictionary of filtered sequences in the format:
       {sequence_name: (sequence, quality_string)}.
     """
     filtered_fastq = {}

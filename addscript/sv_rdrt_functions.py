@@ -11,14 +11,16 @@ RNA = {'a': 'u', 'A': 'U',
        'u': 'a', 'U': 'A'
        }
 
-def is_dna(seq):    # is DNA 
+
+def is_dna(seq):    # is DNA
     return set(seq).issubset(DNA.keys())
 
 
-def is_rna(seq):    # is RNA 
+def is_rna(seq):    # is RNA
     return set(seq).issubset(RNA.keys())
 
-def is_none(val, results): # is None
+
+def is_none(val, results):   # is None
     if val is not None:
         results.append(val)
 
