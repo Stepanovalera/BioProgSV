@@ -1,5 +1,11 @@
 
+import os
 def read_fastq(input_fastq):
+    base_directory = os.path.dirname(input_fastq)
+    if not os.path.exists(base_directory):
+        filtered_directory = os.path.join(base_directory, 'filtered')
+        if not os.path.exists(filtered_directory):
+            os.makedirs(filtered_directory)
     with open(input_fastq) as file:
         keys = []
         values = []
@@ -10,7 +16,7 @@ def read_fastq(input_fastq):
             elif not line_new.startswith('+SRX'):
                 values.append(line_new)
         input_fastq_data = {keys[i]: (values[2 * i], values[2 * i + 1]) for i in range(len(keys))}      
-    return input_fastq_data
+    return input_fastq_data, filtered_directory
 
 
 def write_fastq(output_fastq_data, output_fastq):
@@ -20,3 +26,4 @@ def write_fastq(output_fastq_data, output_fastq):
                     file.write(output_fastq.items(sequence_fastq + '\n'))
                     file.write(output_fastq.items('+' + sequence_id[1:] + '\n'))
                     file.write(output_fastq.items(quality_fastq + '\n'))
+    return output_fastq
