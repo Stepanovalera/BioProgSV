@@ -5,9 +5,10 @@ from addscript.sv_rdrt_functions import (transcribe,
                                          reverse_complement,
                                          is_none)
 from addscript.fastq_qc_function import fast_qc
-
+from addscript.fastq_read_write_file import read_fastq, write_fastq
 
 def run_dna_rna_tools(*args):
+
     """
     Parameters:
     *args (list): list of seqs(list) and action(str)
@@ -40,26 +41,7 @@ def run_dna_rna_tools(*args):
         return results
 
 
-def read_fastq(fastq_file):
-    with open('/Users/lerastepanova/Documents/bioinf/Python/example_fastq.fastq') as file: # контекстный менеджер
-        keys = []
-        values = []
-        for line in file.readlines():
-            line_new = line.strip()
-            if line_new.startswith('@SRX'):
-                keys.append(line_new)
-            elif not line_new.startswith('+SRX'):
-                values.append(line_new)
-        input_fastq = {keys[i]: (values[2 * i], values[2 * i + 1]) for i in range(len(keys))}      
-    return input_fastq
-
-
-def write_fastq(fastq_data):
-
-    return output_fastq
-
-
-def filter_fastq(input_fastq, gc_bounds=(0, 100),
+def filter_fastq(input_fastq, output_fastq, gc_bounds=(0, 100),
                  length_bounds=(0, 2**32),
                  quality_threshold=0):
     """
@@ -77,15 +59,18 @@ def filter_fastq(input_fastq, gc_bounds=(0, 100),
         A dictionary of filtered sequences in the format:
       {sequence_name: (sequence, quality_string)}.
     """
+    input_fastq_data = read_fastq(input_fastq)
     if isinstance(gc_bounds, (int)):
         gc_bounds = (0, gc_bounds)
     if isinstance(length_bounds, (int)):
         length_bounds = (0, length_bounds)
-    filtered_fastq = {}
-    filtered_data = fast_qc(input_fastq)
+    output_fastq_data = {}
+    filtered_data = fast_qc(input_fastq_data)
     for sequence_name, (gc, length, quality) in filtered_data.items():
         if (gc_bounds[0] <= gc <= gc_bounds[1]) and \
            (length_bounds[0] <= length <= length_bounds[1]) and \
            (quality >= float(quality_threshold)):
-            filtered_fastq[sequence_name] = input_fastq[sequence_name]
-    return write_fastq(filtered_fastq)
+            output_fastq_data[sequence_name] = input_fastq[sequence_name]
+            write_fastq(output_fastq_data, output_fastq)
+    return output_fastq
+
