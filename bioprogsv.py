@@ -65,12 +65,12 @@ def filter_fastq(input_fastq, output_fastq, gc_bounds=(0, 100),
     if isinstance(length_bounds, (int)):
         length_bounds = (0, length_bounds)
     input_fastq_data, filtered_directory = read_fastq(input_fastq)
-    output_fastq = filtered_directory + '/' + output_fastq 
+    output_fastq = filtered_directory + '/' + output_fastq
     data_param = fast_qc(input_fastq_data)
-    output_fastq_data={}
+    output_fastq_data = {}
     for sequence_name, (gc, length, quality) in data_param.items():
         if (gc_bounds[0] <= gc <= gc_bounds[1]) and \
            (length_bounds[0] <= length <= length_bounds[1]) and \
            (quality >= float(quality_threshold)):
-                output_fastq_data[sequence_name] = input_fastq_data[sequence_name]
+            output_fastq_data[sequence_name] = input_fastq_data[sequence_name]
     return write_fastq(output_fastq_data, output_fastq)
