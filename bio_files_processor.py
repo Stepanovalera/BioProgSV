@@ -4,7 +4,7 @@ def convert_multiline_fasta_to_oneline(input_fasta, output_fasta):
     base_directory = os.path.dirname(input_fasta)
     output_fasta = base_directory + '/' + output_fasta
     with open(output_fasta, 'w') as out_file:
-        with open(input_fasta, 'r') as in_file:
+        with open(input_fasta) as in_file:
             sequence = ""
             for line in in_file:
                 line = line.strip()
@@ -37,10 +37,35 @@ def parse_blast_output(input_blast, output_blast):
                     out_file.write(changed_line[0] + '...\n')
     return output_blast
 
-def select_genes_from_gbk_to_fasta(input_gbk, genes, output_fasta, n_before=1, n_after=1):
+
+#    
+def select_genes_from_gbk_to_fasta(input_gbk, output_fasta, genes, n_before=1, n_after=1):
     base_directory = os.path.dirname(input_gbk)
     output_fasta = base_directory + '/' + output_fasta
+    with open(output_fasta, 'w') as fasta_file:
+        with open(input_gbk, 'r') as gbk_file:
+            recording = False
+            translation_lines = []
 
-
-#file = convert_multiline_fasta_to_oneline('/Users/lerastepanova/Downloads/example_multiline_fasta.fasta','1.fasta')
-#parse_blast_output('/Users/lerastepanova/Downloads/example_blast_results.txt', 'int.txt')
+            for line in gbk_file:
+                if line.startswith('                     /gene='):
+                    gene_name = line.split('"')[1]
+                    if any(gene_name in s for s in genes):
+                        recording = True
+                        translation_lines = []
+                        fasta_file.write('>' + gene_name + '\n')
+                    else:
+                        recording = False
+                if recording:
+                    if line.startswith('                     /translation='):
+                        line_translation = line.strip().split('"')[1]
+                        translation_lines.append(line_translation)
+                    elif line.startswith('                     ') and not line.startswith('                     /'):
+                        line_translation = line.strip().strip('"')
+                        if line_translation:
+                            translation_lines.append(line_translation)
+                if line.startswith('     CDS') and translation_lines:
+                    fasta_file.write(''.join(translation_lines) + '\n')
+                    translation_lines = []
+                    recording = False
+    return output_fasta
