@@ -31,11 +31,15 @@ Filters sequences in a FASTQ file based on GC content, length, and quality thres
 
 **Parameters:**
 
-input_fastq (str): Path to the input FASTQ file.
-output_fastq (str): Name of output FASTQ file.
-gc_bounds (tuple or int): GC content bounds for filtering.
-length_bounds (tuple or int): Length bounds for filtering.
-quality_threshold (float): Minimum average quality score for filtering.
+- `input_fastq` (str): Path to the input FASTQ file.
+
+- `output_fastq` (str): Name of output FASTQ file.
+
+- `gc_bounds` (tuple or int): GC content bounds for filtering.
+
+- `length_bounds` (tuple or int): Length bounds for filtering.
+
+- `quality_threshold`(float): Minimum average quality score for filtering.
 
   *GC Content Bounds*: Only sequences within the specified percentage range are retained. The GC content influences sequence stability and should fall within acceptable bounds for specific analyses.  Default paramenter: `gc_bounds = (0, 100)` Input can contain a single number, which will be interpreted as the upper bound. 
 
