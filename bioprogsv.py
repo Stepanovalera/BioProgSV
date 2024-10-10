@@ -42,23 +42,25 @@ def run_dna_rna_tools(*args):
         return results
 
 
-def filter_fastq(input_fastq, output_fastq, gc_bounds=(0, 100),
-                 length_bounds=(0, 2**32),
-                 quality_threshold=0):
+def filter_fastq(
+    input_fastq: str, 
+    output_fastq: str, 
+    gc_bounds: tuple[int, int] = (0, 100), 
+    length_bounds: tuple[int, int] = (0, 2**32), 
+    quality_threshold: float = 0.0
+) -> str:
     """
     Parameters:
-    - seqs dict[str, tuple[str, str]: A
-        dictionary where each key is a sequence name and each value
-      is a tuple containing the DNA sequence (str)
-        and its quality string (str).
-    - gc_bounds(tuple or int):
-    - length_bounds(tuple ot int):
-    - quality_threshold(float):
+    input_fastq (str): Path to the input FASTQ file.
+    output_fastq (str): filtered FASTQ file name.
+    gc_bounds (tuple of int or int): Bounds for GC content filtering; 
+    if an int, used as an upper bound.
+    length_bounds (tuple of int or int): Bounds for sequence length filtering; 
+    if an int, used as an upper bound.
+    quality_threshold (float): Minimum quality score required for sequences to be included.
 
     Returns:
-    - filtered_fastq(dict[str: tuple(str, str)]):
-        A dictionary of filtered sequences in the format:
-      {sequence_name: (sequence, quality_string)}.
+    str: Path to the generated FASTQ file containing the filtered sequences.
     """
     if isinstance(gc_bounds, (int)):
         gc_bounds = (0, gc_bounds)

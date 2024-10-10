@@ -1,7 +1,15 @@
 import os
 
 
-def convert_multiline_fasta_to_oneline(input_fasta, output_fasta):
+def convert_multiline_fasta_to_oneline(input_fasta: str, output_fasta: str) -> str:
+    '''
+    Parameters:
+    input_fasta (str): Path to the input FASTA file.
+    output_fasta (str): output FASTA file name
+
+    Returns:
+    str: Path to the generated output FASTA file.
+    '''
     base_directory = os.path.dirname(input_fasta)
     output_fasta = base_directory + '/' + output_fasta
     with open(output_fasta, 'w') as out_file:
@@ -21,7 +29,15 @@ def convert_multiline_fasta_to_oneline(input_fasta, output_fasta):
     return output_fasta
 
 
-def parse_blast_output(input_blast, output_blast):
+def parse_blast_output(input_blast: str, output_blast: str) -> str:
+    '''
+    Parameters:
+    input_blast (str): Path to the input BLAST output file.
+    output_blast (str): file name
+
+    Returns:
+    str: Path to the generated output file containing parsed descriptions.
+    '''
     base_directory = os.path.dirname(input_blast)
     output_blast = base_directory + '/' + output_blast
     with open(output_blast, 'w') as out_file:
@@ -40,7 +56,28 @@ def parse_blast_output(input_blast, output_blast):
     return output_blast
 
 
-def select_genes_from_gbk_to_fasta(input_gbk, output_fasta, genes, n_before=1, n_after=1):
+def select_genes_from_gbk_to_fasta(
+    input_gbk: str, 
+    output_fasta: str, 
+    genes: list[str], 
+    n_before: int = 1, 
+    n_after: int = 1
+) -> str:
+    '''
+    Parameters:
+    input_gbk (str): Path to the input GenBank file.
+    output_fasta (str): output FASTA file name.
+    genes (list of str): Names of the target genes for which 
+    adjacent sequences are extracted.
+    n_before (int, optional): Number of genes to include 
+    before each target gene. Defaults to 1.
+    n_after (int, optional): Number of genes to include 
+    after each target gene. Defaults to 1.
+
+    Returns:
+    str: Path to the generated FASTA file containing 
+    neighboring gene sequences.
+    '''
     base_directory = os.path.dirname(input_gbk)
     output_fasta = os.path.join(base_directory, output_fasta)
     gene_to_translation = {}
