@@ -42,16 +42,16 @@ def parse_blast_output(input_blast, output_blast):
 
 def select_genes_from_gbk_to_fasta(input_gbk, output_fasta, genes, n_before=1, n_after=1):
     base_directory = os.path.dirname(input_gbk)
-    output_fasta = base_directory + '/' + output_fasta
+    output_fasta = os.path.join(base_directory, output_fasta)
+    gene_to_translation = {}
     with open(input_gbk) as gbk_file:
         recording = False
+        current_gene = None
         translation_lines = []
-        gene_keys = []
-        translation_values = []
         for line in gbk_file:
             if line.startswith('                     /gene='):
-                gene_name = line.split('"')[1]
-                gene_keys.append(gene_name)
+                current_gene = line.split('"')[1]
+                gene_to_translation[current_gene] = ''
                 recording = True
             if recording:
                 if line.startswith('                     /translation='):
@@ -60,15 +60,24 @@ def select_genes_from_gbk_to_fasta(input_gbk, output_fasta, genes, n_before=1, n
                 elif line.startswith('                     ') and not line.startswith('                     /'):
                     line_translation = line.strip().strip('"')
                     if line_translation:
-                        translation_values.append(translation_lines.append(line_translation))
-            if line.startswith('     CDS') and translation_lines:
+                        translation_lines.append(line_translation)
+            if line.startswith('     CDS') and current_gene is not None:
+                if translation_lines:
+                    gene_to_translation[current_gene] = ''.join(translation_lines)
+                current_gene = None
                 translation_lines = []
                 recording = False
-        gene_translation = {gene_keys: translation_values}
-        with open(output_fasta, 'w') as fasta_file:
-             for gene_names, [sequence] in gene_translation.items:
-                if any(gene_names in s for s in genes):
-                        fasta_file.write('>' + gene_name + '\n') # здесь нужно записать n_before=1, n_after=1 гены и последовательности 
-                        fasta_file.write(sequence + '\n')
+    with open(output_fasta, 'w') as fasta_file:
+        genes_found = list(gene_to_translation.keys())
+        for index, gene_name in enumerate(genes_found):
+            if any(gene_name == s for s in genes):
+                start_index = max(0, index - n_before)
+                end_index = min(len(genes_found), index + n_after + 1)
+                for i in range(start_index, end_index):
+                    if i == index:
+                        continue
+                    gene = genes_found[i]
+                    sequence = gene_to_translation[gene]
+                    fasta_file.write(f'>{gene}\n')
+                    fasta_file.write(sequence + '\n')
     return output_fasta
-
