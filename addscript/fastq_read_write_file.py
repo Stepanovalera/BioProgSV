@@ -4,8 +4,7 @@ def read_fastq(input_fastq):
     base_directory = os.path.dirname(input_fastq)
     if not os.path.exists(base_directory):
         filtered_directory = os.path.join(base_directory, 'filtered')
-        if not os.path.exists(filtered_directory):
-            os.makedirs(filtered_directory)
+        os.makedirs(filtered_directory)
     with open(input_fastq) as file:
         keys = []
         values = []

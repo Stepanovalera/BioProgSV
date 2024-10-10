@@ -60,12 +60,12 @@ def filter_fastq(input_fastq, output_fastq, gc_bounds=(0, 100),
         A dictionary of filtered sequences in the format:
       {sequence_name: (sequence, quality_string)}.
     """
-    input_fastq_data, filtered_directory = read_fastq(input_fastq)
-    output_fastq = filtered_directory+output_fastq
     if isinstance(gc_bounds, (int)):
         gc_bounds = (0, gc_bounds)
     if isinstance(length_bounds, (int)):
         length_bounds = (0, length_bounds)
+    input_fastq_data, filtered_directory = read_fastq(input_fastq)
+    output_fastq = filtered_directory + '/' + output_fastq 
     output_fastq_data = {}
     filtered_data = fast_qc(input_fastq_data)
     for sequence_name, (gc, length, quality) in filtered_data.items():
@@ -74,4 +74,3 @@ def filter_fastq(input_fastq, output_fastq, gc_bounds=(0, 100),
            (quality >= float(quality_threshold)):
             output_fastq_data[sequence_name] = input_fastq[sequence_name]
     return write_fastq(output_fastq_data, output_fastq)
-
