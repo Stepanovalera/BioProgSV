@@ -25,10 +25,16 @@ def fast_qc(seqs):
       indicating the reliability of the sequence data.
     """
     gc_len_q = {}
-    quality_scores = []
     for sequence_name, (sequence, quality) in seqs.items():
-        gc_count = (sequence.count('G') + sequence.count('C'))/len(sequence) * 100
-        quality_scores = [ord(char) - 33 for char in quality]
-        average_quality = sum(quality_scores) / len(quality_scores) if quality_scores else 0
-        gc_len_q[sequence_name] = (gc_count, len(sequence), average_quality)
+        if not sequence:  # Проверка на пустую последовательность
+            gc_count = 0.0
+            length = 0
+            average_quality = 0.0
+        else:
+            gc_count = (sequence.count('G') + sequence.count('C')) / len(sequence) * 100
+            quality_scores = [ord(char) - 33 for char in quality]
+            average_quality = sum(quality_scores) / len(quality_scores) if quality_scores else 0
+            length = len(sequence)
+        
+        gc_len_q[sequence_name] = (gc_count, length, average_quality)
     return gc_len_q
